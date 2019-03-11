@@ -16,7 +16,10 @@ module.exports = async function (options = {}) {
 
   const { name, baseDir, port, oplog, nodes, ip } = opts
 
-  const replicaSets = []
+  const replicaSets = {
+    name,
+    nodes: []
+  }
   const basePort = parseInt(port)
 
   let i = 0
@@ -25,14 +28,14 @@ module.exports = async function (options = {}) {
     const node = `${name}-${i}`
     const dbPath = path.join(baseDir, node)
 
-    replicaSets.push({
+    replicaSets.nodes.push({
       index: i,
       node,
-      name,
       port,
       dbPath,
       oplog,
-      ip
+      ip,
+      host: `${ip}:${port}`
     })
     await fse.ensureDir(dbPath)
   }
