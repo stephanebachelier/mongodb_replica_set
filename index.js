@@ -3,50 +3,63 @@ const execa = require('execa')
 const fs = require('fs')
 const fse = require('fs-extra')
 const path = require('path')
+const log = require('debug')('mongo:rs')
+const chalk = require('chalk')
 
 module.exports = async (options) => {
-  const replicaSets = await conf(options.rs)
-  const {
-    mongodPath,
-    accessLog = 'access.log',
-    errorLog = 'error.log'
-  } = options.mongo
+  try {
+    const replicaSet = await conf(options.rs)
+    const {
+      mongodPath,
+      accessLog = 'access.log',
+      errorLog = 'error.log'
+    } = options.mongo
 
-  let children = []
-  process.on('SIGINT', () => {
-    console.log('closing children process', children.length)
-    children.forEach(child => {
-      child.kill('SIGTERM')
-    })
+    const { name, nodes } = replicaSet
 
-    process.exit()
-  })
+    log('starting replica set [%s] with %s nodes', chalk.cyan(name), chalk.cyan(nodes.length))
 
-  const logDir = path.join(options.rs.baseDir, 'log')
-
-  replicaSets.forEach(async ({ name, port, dbPath, oplog, ip, node }) => {
-    try {
-      const child = execa(`${mongodPath}/mongod`, [
-         '--replSet', name,
-         '--port', port,
-         '--dbpath', dbPath,
-         '--oplogSize', oplog,
-         '--bind_ip', ip,
-         '--smallfiles'
-      ], {
-        detached: true
+    let children = []
+    process.on('SIGINT', () => {
+      log('closing %s children process', chalk.cyan(children.length))
+      children.forEach(child => {
+        child.kill('SIGTERM')
       })
 
-      const nodeLogDir = path.join(logDir, rs)
+      log('Bye !')
+      process.exit()
+    })
 
-      await fse.ensureDir(rsLogDir)
+    const logDir = path.join(options.rs.baseDir, 'log')
 
-      child.stdout.pipe(fs.createWriteStream(path.join(nodeLogDir, accessLog)))
-      child.stderr.pipe(fs.createWriteStream(path.join(nodeLogDir, errorLog)))
+    nodes.forEach(async ({ port, dbPath, oplog, ip, node }) => {
+      try {
+        log('starting node %s on %s', chalk.cyan(node), chalk.cyan(`${ip}:${port}`))
+        log('monting in %s', chalk.cyan(dbPath))
 
-      children.push(child)
-    } catch (e) {
-      console.error(e.message)
-    }
-  })
+        const nodeLogDir = path.join(logDir, node)
+
+        await fse.ensureDir(nodeLogDir)
+
+        const child = execa(`${mongodPath}/mongod`, [
+           '--replSet', name,
+           '--port', port,
+           '--dbpath', dbPath,
+           '--oplogSize', oplog,
+           '--bind_ip', ip,
+           '--smallfiles'
+        ], {
+          detached: true,
+        })
+        child.stdout.pipe(fs.createWriteStream(path.join(nodeLogDir, accessLog)))
+        child.stderr.pipe(fs.createWriteStream(path.join(nodeLogDir, errorLog)))
+
+        children.push(child)
+      } catch (e) {
+        console.error(e.message)
+      }
+    })
+  } catch (e) {
+    console.error(e)
+  }
 }
