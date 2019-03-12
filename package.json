@@ -13,7 +13,7 @@
   "publishConfig": {
     "tag": "latest",
     "private": false,
-    "access": "restricted"
+    "access": "public"
   },
   "files": [
     "*.js",
