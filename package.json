@@ -24,7 +24,7 @@
     "CHANGELOG.md"
   ],
   "bin": {
-    "mrepset": "bin/cli"
+    "mrepset": "bin/cli.js"
   },
   "scripts": {
     "lint": "standard src/* test/* | snazzy",
