@@ -8,7 +8,7 @@ It should only be used for localhost or on any secured environment, not into the
 
 ## Description
 
-This script will configure a MongoDB replica set environment and start all the replica set mongod process.
+This script will configure a MongoDB replica set environment and start all the replica set mongod processes.
 
 By default it will create a replica set `rs` of 3 nodes on localhost with a db path of `/srv/mongo`:
 - node #1, `rs-0` on port 27017,
