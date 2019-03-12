@@ -1,3 +1,13 @@
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/stephanebachelier/mongodb_replica_set/compare/0.1.2...0.1.3) (2019-03-12)
+
+
+### Bug Fixes
+
+* **rs:** fix url command ([7ba6b43](https://github.com/stephanebachelier/mongodb_replica_set/commit/7ba6b43))
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/stephanebachelier/mongodb_replica_set/compare/0.1.1...0.1.2) (2019-03-12)
 
