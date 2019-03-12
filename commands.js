@@ -12,6 +12,7 @@ module.exports = (client, replicaSet) => ({
 
     if (status.codeName === 'NotYetInitialized') {
       log('no replica set initialized')
+      return false
     }
 
     if (status.members) {

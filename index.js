@@ -71,10 +71,17 @@ module.exports = async (options) => {
     await sleep(delay)
     const client = await mongo(`mongodb://${replicaSet.nodes[0].host}`)
 
+    // setup commands
+    const _commands = commands(client, replicaSet)
+
+    if (!await _commands.status()) {
+      await _commands.initiate()
+    }
+
     // give user control
     stdin({
       quit: () => process.kill(process.pid, 'SIGINT'),
-      ...commands(client, replicaSet)
+      ..._commands
     })
   } catch (e) {
     console.error(e)
