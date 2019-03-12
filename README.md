@@ -73,7 +73,9 @@ The name of a node access log file.
 
 The name of a node error log file.
 
-## Example
+## Examples
+
+### Programmatically
 
 In the example below a replica set of 3 nodes starting on port 27117, 27118 & 27119 using a MongoDB@4.0 installation in `/usr/local/opt/mongodb@4.0` folder :
 
@@ -89,4 +91,26 @@ setup({
     mongodPath: '/usr/local/opt/mongodb@4.0/bin',
   }
 })
+```
+
+You can see a local version in the `examples/setup.js` file.
+
+### CLI
+
+This module export the `mrepset` CLI.
+
+```
+$ mrepset /usr/local/opt/mongo/bin --baseDir /opt/mongodb
+```
+
+Access all options :
+```
+$ mrepset --help
+```
+
+If you want to access [debug](https://npmjs.org/package/debug) logs add the `DEBUG` flag on the CLI with the `mongo:rs` flag.
+
+You can see a local version in the `examples/setup.sh` file which can be run :
+```
+$ ./examples/setup.sh
 ```
