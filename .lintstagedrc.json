@@ -1,0 +1,9 @@
+{
+  "linters": {
+    "**/*.js": ["standard --fix", "git add"],
+    "test/**/*.js": ["standard --fix", "git add"],
+    "*.json": ["jsonlint", "prettier --write", "git add"],
+    "*.yaml": ["yamllint", "prettier --write", "git add"]
+  },
+  "ignore": ["node_modules"]
+}
