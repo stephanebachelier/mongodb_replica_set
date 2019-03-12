@@ -1,15 +1,14 @@
-const conf = require('./conf')
 const execa = require('execa')
 const fs = require('fs')
 const fse = require('fs-extra')
 const path = require('path')
 const log = require('debug')('mongo:rs')
 const chalk = require('chalk')
-const mongo = require('./mongo')
-const rs = require('./rs')
 const sleep = require('sleepjs')
-const commands = require('./commands')
-const stdin = require('./stdin')
+const conf = require('./lib/conf')
+const mongo = require('./lib/mongo')
+const commands = require('./lib/commands')
+const stdin = require('./lib/stdin')
 
 module.exports = async (options) => {
   try {
@@ -48,14 +47,14 @@ module.exports = async (options) => {
         await fse.ensureDir(nodeLogDir)
 
         const child = execa(`${mongodPath}/mongod`, [
-           '--replSet', name,
-           '--port', port,
-           '--dbpath', dbPath,
-           '--oplogSize', oplog,
-           '--bind_ip', ip,
-           '--smallfiles'
+          '--replSet', name,
+          '--port', port,
+          '--dbpath', dbPath,
+          '--oplogSize', oplog,
+          '--bind_ip', ip,
+          '--smallfiles'
         ], {
-          detached: true,
+          detached: true
         })
         child.stdout
           .pipe(fs.createWriteStream(path.join(nodeLogDir, accessLog)))
