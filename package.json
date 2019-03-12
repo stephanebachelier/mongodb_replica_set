@@ -1,6 +1,6 @@
 {
   "name": "mongodb_replica_set",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Create a local mongo replica set for dev or testing",
   "main": "index.js",
   "license": "MIT",

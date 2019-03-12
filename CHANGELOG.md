@@ -1,3 +1,12 @@
+## [0.1.1](https://github.com/stephanebachelier/mongodb_replica_set/compare/0.1.0...0.1.1) (2019-03-12)
+
+
+### Bug Fixes
+
+* **rs:** add back url command ([019834a](https://github.com/stephanebachelier/mongodb_replica_set/commit/019834a))
+
+
+
 # 0.1.0 (2019-03-12)
 
 
