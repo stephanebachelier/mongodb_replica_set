@@ -1,0 +1,18 @@
+{
+  "increment": "conventional:angular",
+  "scripts": {
+    "beforeStage": "yarn run changelog"
+  },
+  "src": {
+    "commitMessage": "chore: release %s",
+    "commitArgs": "--no-verify",
+    "addUntrackedFiles": true,
+    "pushArgs": "--no-verify"
+  },
+  "git": {
+    "addUntrackedFiles": true
+  },
+  "github": {
+    "release": true
+  }
+}
