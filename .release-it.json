@@ -1,16 +1,14 @@
 {
   "increment": "conventional:angular",
   "scripts": {
-    "beforeStage": "yarn run changelog"
-  },
-  "src": {
-    "addUntrackedFiles": true,
-    "commitMessage": "chore: release %s",
-    "commitArgs": "-S --no-verify",
-    "tagArgs": "-S"
+    "beforeStage": "yarn run changelog && git add CHANGELOG.md"
   },
   "git": {
-    "addUntrackedFiles": true
+    "addUntrackedFiles": false,
+    "commitMessage": "chore: release %s",
+    "commitArgs": "-S --no-verify",
+    "tagArgs": "-s",
+    "commitMessage": "chore: release ${version}"
   },
   "github": {
     "release": true
