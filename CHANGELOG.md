@@ -1,3 +1,13 @@
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/stephanebachelier/mongodb_replica_set/compare/0.1.1...0.1.2) (2019-03-12)
+
+
+### Bug Fixes
+
+* **bin:** add shebang on top ([ee76c76](https://github.com/stephanebachelier/mongodb_replica_set/commit/ee76c76))
+
+
+
 ## [0.1.1](https://github.com/stephanebachelier/mongodb_replica_set/compare/0.1.0...0.1.1) (2019-03-12)
 
 
