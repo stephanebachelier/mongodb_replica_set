@@ -11,14 +11,14 @@ module.exports = (client, replicaSet) => ({
     let status = await rs.status(client)
 
     if (status.codeName === 'NotYetInitialized') {
-      log('no replica set initialized')
+      console.log(chalk.red('no replica set initialized'))
       return false
     }
 
     if (status.members) {
-      log('replica set status')
+      console.log(chalk.cyan('replica set status'))
       status.members.forEach(({ name, state }, index) => {
-        log('* %s ~> %s : %s', chalk.cyan(`#${index}`), chalk.bold.red(name), chalk.green(state))
+        console.log('* %s ~> %s : %s', chalk.cyan(`#${index}`), chalk.bold.red(name), chalk.green(state))
       })
     }
 
@@ -26,6 +26,7 @@ module.exports = (client, replicaSet) => ({
   },
 
   url: () => {
-    console.log(rs.url(replicaSet))
+    console.log(chalk.cyan('replica set url'))
+    console.log('%s', chalk.green(rs.url(replicaSet)))
   }
 })
