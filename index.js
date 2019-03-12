@@ -5,6 +5,9 @@ const fse = require('fs-extra')
 const path = require('path')
 const log = require('debug')('mongo:rs')
 const chalk = require('chalk')
+const mongo = require('./mongo')
+const rs = require('./rs')
+const sleep = require('sleepjs')
 
 module.exports = async (options) => {
   try {
@@ -12,7 +15,8 @@ module.exports = async (options) => {
     const {
       mongodPath,
       accessLog = 'access.log',
-      errorLog = 'error.log'
+      errorLog = 'error.log',
+      delay = 5000
     } = options.mongo
 
     const { name, nodes } = replicaSet
@@ -51,14 +55,35 @@ module.exports = async (options) => {
         ], {
           detached: true,
         })
-        child.stdout.pipe(fs.createWriteStream(path.join(nodeLogDir, accessLog)))
-        child.stderr.pipe(fs.createWriteStream(path.join(nodeLogDir, errorLog)))
+        child.stdout
+          .pipe(fs.createWriteStream(path.join(nodeLogDir, accessLog)))
+        child.stderr
+          .pipe(fs.createWriteStream(path.join(nodeLogDir, errorLog)))
 
         children.push(child)
       } catch (e) {
         console.error(e.message)
       }
     })
+
+    await sleep(delay)
+    const client = await mongo(`mongodb://${replicaSet.nodes[0].host}`)
+    let status = await rs.status(client)
+
+    if (status.codeName === 'NotYetInitialized') {
+      await rs.initiate(client, replicaSet)
+
+      await sleep(delay)
+
+      status = await rs.status(client)
+    }
+
+    if (status.members) {
+      log('replica set status')
+      status.members.forEach(({ name, state }, index) => {
+        log('* %s ~> %s : %s', chalk.cyan(`#${index}`), chalk.bold.red(name), chalk.green(state))
+      })
+    }
   } catch (e) {
     console.error(e)
   }
