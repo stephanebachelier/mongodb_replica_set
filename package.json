@@ -16,8 +16,8 @@
     "access": "public"
   },
   "files": [
-    "*.js",
-    "rs",
+    "index.js",
+    "lib",
     "package.json",
     "README.md",
     "CHANGELOG.md"
