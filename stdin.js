@@ -9,20 +9,30 @@ const keyMap = new Map();
 
 keyMap.set('s', 'status')
 keyMap.set('q', 'quit')
-keyMap.set('i', 'initiate')
+keyMap.set('u', 'url')
+keyMap.set('h', 'help')
+
+const help = () => {
+  for (var [key, value] of keyMap) {
+    console.log(`key %s ~> %s`, chalk.bold.cyan(key), chalk.bold.cyan(value))
+  }
+}
 
 module.exports = commandMap => {
+  help()
   process.stdin.on('keypress', (str, key) => {
-    if (key.ctrl && key.name === 'c') {
-      commandMap.quit()
-    } else {
-      if (keyMap.has(str)) {
-        const name = keyMap.get(str)
-        log('Execute command %s', chalk.cyan(str))
-        commandMap[keyMap.get(str)]()
-      } else {
-        log('Command %s not supported', chalk.bold.red(str))
-      }
+    const { ctrl, name } = key
+    if (name === 'h') {
+      return help()
     }
-  });
+    if (ctrl && name === 'c') {
+      return commandMap.quit()
+    }
+
+    if (keyMap.has(name)) {
+      const command = keyMap.get(name)
+      log('> %s', chalk.cyan(command))
+      commandMap[command]()
+    }
+  })
 }

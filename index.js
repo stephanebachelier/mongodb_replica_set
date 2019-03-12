@@ -8,6 +8,8 @@ const chalk = require('chalk')
 const mongo = require('./mongo')
 const rs = require('./rs')
 const sleep = require('sleepjs')
+const commands = require('./commands')
+const stdin = require('./stdin')
 
 module.exports = async (options) => {
   try {
@@ -68,22 +70,12 @@ module.exports = async (options) => {
 
     await sleep(delay)
     const client = await mongo(`mongodb://${replicaSet.nodes[0].host}`)
-    let status = await rs.status(client)
 
-    if (status.codeName === 'NotYetInitialized') {
-      await rs.initiate(client, replicaSet)
-
-      await sleep(delay)
-
-      status = await rs.status(client)
-    }
-
-    if (status.members) {
-      log('replica set status')
-      status.members.forEach(({ name, state }, index) => {
-        log('* %s ~> %s : %s', chalk.cyan(`#${index}`), chalk.bold.red(name), chalk.green(state))
-      })
-    }
+    // give user control
+    stdin({
+      quit: () => process.kill(process.pid, 'SIGINT'),
+      ...commands(client, replicaSet)
+    })
   } catch (e) {
     console.error(e)
   }
