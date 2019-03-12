@@ -22,6 +22,9 @@
     "README.md",
     "CHANGELOG.md"
   ],
+  "bin": {
+    "mrepset": "bin/cli"
+  },
   "scripts": {
     "lint": "standard src/* test/* | snazzy",
     "test:unit": "jest --config .jest.unit.js",
