@@ -16,6 +16,7 @@
     "access": "public"
   },
   "files": [
+    "bin",
     "index.js",
     "lib",
     "package.json",
