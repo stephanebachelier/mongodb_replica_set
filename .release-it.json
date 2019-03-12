@@ -4,15 +4,21 @@
     "beforeStage": "yarn run changelog"
   },
   "src": {
-    "commitMessage": "chore: release %s",
-    "commitArgs": "--no-verify",
     "addUntrackedFiles": true,
-    "pushArgs": "--no-verify"
+    "commitMessage": "chore: release %s",
+    "commitArgs": "-S --no-verify",
+    "tagArgs": "-S"
   },
   "git": {
     "addUntrackedFiles": true
   },
   "github": {
     "release": true
+  },
+  "npm": {
+    "publishPath": ".",
+    "tag": "latest",
+    "private": false,
+    "access": null
   }
 }
