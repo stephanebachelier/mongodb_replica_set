@@ -1,3 +1,17 @@
+# [0.2.0](https://github.com/stephanebachelier/mrepset/compare/0.1.3...0.2.0) (2019-03-13)
+
+
+### Bug Fixes
+
+* **cli:** fix option aliases to use single letter ([c4b9346](https://github.com/stephanebachelier/mrepset/commit/c4b9346))
+
+
+### Features
+
+* **cli:** use mongoPath as an option ([bbfba33](https://github.com/stephanebachelier/mrepset/commit/bbfba33))
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/stephanebachelier/mrepset/compare/0.1.2...0.1.3) (2019-03-12)
 
