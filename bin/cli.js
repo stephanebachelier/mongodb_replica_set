@@ -1,10 +1,9 @@
 #!/usr/bin/env node
-const chalk = require('chalk')
 
 const cli = require('meow')(`
   Usage
   =====
-  $ mrepset <mongo-bin-path>
+  $ mrepset
 
   Description
   ===========
@@ -24,6 +23,7 @@ const cli = require('meow')(`
 
   ## Other options
 
+    - mongoPath     path to the mongo bin folder (default: none as it will use the mongo binaries from the PATH)
     - accessLog     the access log filename (default: 'access.log')
     - errorLog      the error log filename (default: 'error.log')
     - delay         a default delay to wait for the server instances to be up (default: 5000)
@@ -60,6 +60,10 @@ const cli = require('meow')(`
       default: '127.0.0.1',
       alias: 'i'
     },
+    mongoPath: {
+      type: 'string',
+      alias: 'mp'
+    },
     accessLog: {
       type: 'string',
       default: 'access.log',
@@ -78,14 +82,6 @@ const cli = require('meow')(`
   }
 })
 
-const [ mongodPath ] = cli.input
-
-if (!mongodPath) {
-  console.log(chalk.bold.red('  Missing path to mongo bin directory !'))
-  console.log('  ~>> Example: %s', chalk.cyan('mrepset /usr/local/opt/mongodb@4.0/bin'))
-  cli.showHelp()
-}
-
 const {
   name,
   baseDir,
@@ -93,6 +89,7 @@ const {
   oplog,
   nodes,
   ip,
+  mongoPath,
   accessLog,
   errorLog,
   delay
@@ -108,7 +105,7 @@ require('..')({
     ip
   },
   mongo: {
-    mongodPath,
+    mongoPath,
     accessLog,
     errorLog,
     delay
