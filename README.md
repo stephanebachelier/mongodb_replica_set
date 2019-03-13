@@ -26,18 +26,18 @@ Closing the main process will terminate the three processes.
 
 Locally :
 
- - npm : `npm i @42nth/mongodb_replica_set`
- - yarn : `yarn add @42nth/mongodb_replica_set`
+ - npm : `npm i @42nth/mrepset`
+ - yarn : `yarn add @42nth/mrepset`
 
 Or globally :
 
- - npm : `npm i -g @42nth/mongodb_replica_set`
- - yarn : `yarn global add @42nth/mongodb_replica_set`
+ - npm : `npm i -g @42nth/mrepset`
+ - yarn : `yarn global add @42nth/mrepset`
 
 ## Usage
 
 ```
-const setup = require('mongodb_replica_set')
+const setup = require('mrepset')
 
 setup(options)
 ```
@@ -92,7 +92,7 @@ The name of a node error log file.
 In the example below a replica set of 3 nodes starting on port 27117, 27118 & 27119 using a MongoDB@4.0 installation in `/usr/local/opt/mongodb@4.0` folder :
 
 ```
-const setup = require('@42nth/mongodb_replica_set')
+const setup = require('@42nth/mrepset')
 
 setup({
   rs: {
