@@ -1,32 +1,31 @@
 #!/usr/bin/env node
-const chalk = require('chalk')
-
 const cli = require('meow')(`
   Usage
   =====
-  $ mrepset <mongo-bin-path>
+  $ mrepset
 
   Description
   ===========
-  Create a configure a MongoDB replica set environment and start all the replica set mongod processes.
+  Create & configure a MongoDB replica set environment and start all the replica set mongod processes.
 
   Options:
   -------
 
   ## Replica set options :
 
-    - name          the replica set name (default: rs)
-    - baseDir       the data directory (default: /srv/mongodb)
-    - port          the port of the first node (default: 27017)
-    - oplog         the oplogSize parameter (default: 128)
-    - nodes         the number of nodes in replica set (default: 3)
-    - ip            the listening ip MongoDB process will be bound to (default: 127.0.0.1)
+    --name, -n          replica set name (default: rs)
+    --baseDir, -b       data directory (default: /srv/mongodb)
+    --port , -p         port of the first node (default: 27017)
+    --oplog, -o         oplogSize parameter (default: 128)
+    --nodes, -c         number of nodes in replica set (default: 3)
+    --ip , -i           listening ip MongoDB process will be bound to (default: 127.0.0.1)
 
   ## Other options
 
-    - accessLog     the access log filename (default: 'access.log')
-    - errorLog      the error log filename (default: 'error.log')
-    - delay         a default delay to wait for the server instances to be up (default: 5000)
+    - mongoPath, -m     path to the mongo bin folder (default: none as it will use the mongo binaries from the PATH)
+    --accessLog, -a     access log filename (default: 'access.log')
+    --errorLog, -e      error log filename (default: 'error.log')
+    --delay, -d         default delay to wait for the server instances to be up (default: 5000)
 
 `, {
   flags: {
@@ -38,7 +37,7 @@ const cli = require('meow')(`
     baseDir: {
       type: 'string',
       default: '/srv/mongodb',
-      alias: 'bd'
+      alias: 'b'
     },
     port: {
       type: 'string',
@@ -53,22 +52,26 @@ const cli = require('meow')(`
     nodes: {
       type: 'string',
       default: '3',
-      alias: 'nd'
+      alias: 'c'
     },
     ip: {
       type: 'string',
       default: '127.0.0.1',
       alias: 'i'
     },
+    mongoPath: {
+      type: 'string',
+      alias: 'm'
+    },
     accessLog: {
       type: 'string',
       default: 'access.log',
-      alias: 'mp'
+      alias: 'a'
     },
     errorLog: {
       type: 'string',
       default: 'error.log',
-      alias: 'mp'
+      alias: 'e'
     },
     delay: {
       type: 'string',
@@ -78,14 +81,6 @@ const cli = require('meow')(`
   }
 })
 
-const [ mongodPath ] = cli.input
-
-if (!mongodPath) {
-  console.log(chalk.bold.red('  Missing path to mongo bin directory !'))
-  console.log('  ~>> Example: %s', chalk.cyan('mrepset /usr/local/opt/mongodb@4.0/bin'))
-  cli.showHelp()
-}
-
 const {
   name,
   baseDir,
@@ -93,6 +88,7 @@ const {
   oplog,
   nodes,
   ip,
+  mongoPath,
   accessLog,
   errorLog,
   delay
@@ -108,7 +104,7 @@ require('..')({
     ip
   },
   mongo: {
-    mongodPath,
+    mongoPath,
     accessLog,
     errorLog,
     delay
