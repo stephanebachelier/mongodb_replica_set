@@ -100,7 +100,7 @@ You can see a local version in the `examples/setup.js` file.
 This module export the `mrepset` CLI.
 
 ```
-$ mrepset /usr/local/opt/mongo/bin --baseDir /opt/mongodb
+$ mrepset --baseDir /opt/mongodb
 ```
 
 Access all options :
