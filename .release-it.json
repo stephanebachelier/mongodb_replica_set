@@ -1,6 +1,7 @@
 {
   "increment": "conventional:angular",
   "scripts": {
+    "changelog": "yarn run changelog",
     "beforeStage": "yarn run changelog && git add CHANGELOG.md"
   },
   "git": {
