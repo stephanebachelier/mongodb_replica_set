@@ -13,11 +13,5 @@
   },
   "github": {
     "release": true
-  },
-  "npm": {
-    "publishPath": ".",
-    "tag": "latest",
-    "private": false,
-    "access": null
   }
 }
