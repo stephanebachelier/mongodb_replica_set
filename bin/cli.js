@@ -38,7 +38,7 @@ const cli = require('meow')(`
     baseDir: {
       type: 'string',
       default: '/srv/mongodb',
-      alias: 'bd'
+      alias: 'b'
     },
     port: {
       type: 'string',
@@ -53,7 +53,7 @@ const cli = require('meow')(`
     nodes: {
       type: 'string',
       default: '3',
-      alias: 'nd'
+      alias: 'c'
     },
     ip: {
       type: 'string',
@@ -62,17 +62,17 @@ const cli = require('meow')(`
     },
     mongoPath: {
       type: 'string',
-      alias: 'mp'
+      alias: 'm'
     },
     accessLog: {
       type: 'string',
       default: 'access.log',
-      alias: 'mp'
+      alias: 'a'
     },
     errorLog: {
       type: 'string',
       default: 'error.log',
-      alias: 'mp'
+      alias: 'e'
     },
     delay: {
       type: 'string',
