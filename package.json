@@ -1,10 +1,10 @@
 {
-  "name": "@42nth/mongodb_replica_set",
+  "name": "@42nth/mrepset",
   "version": "0.1.3",
   "description": "Create a local mongo replica set for dev or testing",
   "main": "index.js",
   "license": "MIT",
-  "repository": "https://github.com/stephanebachelier/mongodb_replica_set.git",
+  "repository": "https://github.com/stephanebachelier/mrepset.git",
   "author": "stephane.bachelier@gmail.com",
   "engines": {
     "node": ">= 8.12.0",
